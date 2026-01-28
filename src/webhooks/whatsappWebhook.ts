@@ -1,4 +1,3 @@
-import Business from "../models/Business";
 import { Request, Response } from "express";
 import { sendMessageViaWhatsApp } from "../services/whatsappSend";
 
@@ -34,22 +33,12 @@ export async function handleWebhookPost(req: Request, res: Response) {
   // acknowledge immediately
   res.sendStatus(200);
 
-  const wabaId = req.body?.entry?.[0]?.id;
-  const phoneNumberId = req.body?.entry?.[0]?.changes?.[0]?.value?.metadata?.phone_number_id;
-  const displayPhone = req.body?.entry?.[0]?.changes?.[0]?.value?.metadata?.display_phone_number;
+  const body = req.body;
+  const phoneId = body.entry?.[0]?.changes?.[0]?.value?.metadata?.phone_number_id;
+  const replyTo = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
+  const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body;
 
-  console.log("WABA:", wabaId);
-  console.log("phone_number_id:", phoneNumberId);
-  console.log("display_phone_number:", displayPhone);
+  if (!phoneId || !replyTo || !message) return;
 
-  const phoneId = phoneNumberId;
-
-  const message = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body;
-  if (!message) return;
-
-  try {
-    await sendMessageViaWhatsApp(phoneId, wabaId, message);
-  } catch (error) {
-    console.error("Error sending WhatsApp message:", error);
-  }
+  sendMessageViaWhatsApp(phoneId, replyTo, message);
 }
