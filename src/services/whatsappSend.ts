@@ -14,6 +14,7 @@ export async function sendMessageViaWhatsApp ( businessPhoneId: string, to: stri
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       }
     });
   } catch (error) {

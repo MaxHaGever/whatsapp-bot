@@ -34,9 +34,10 @@ export async function handleWebhookPost(req: Request, res: Response) {
   // acknowledge immediately
   res.sendStatus(200);
 
-  const phoneId = req.body?.entry?.[0]?.id;
+  const phoneId = req.body?.entry?.[0]?.changes?.[0]?.value?.metadata?.phone_number_id; 
   const userId  = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
   const type    = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.type;
+
 
   // ignore non-message events or non-text messages
   if (!phoneId || !userId || type !== "text") {
