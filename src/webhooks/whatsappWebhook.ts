@@ -38,7 +38,9 @@ export async function handleWebhookPost(req: Request, res: Response) {
   const replyTo = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
   const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body;
 
-  if (!phoneId || !replyTo || !message) return;
+  console.log("Received WhatsApp message:", { phoneId, replyTo, message });
 
+
+  if (!phoneId || !replyTo || !message) return;
   sendMessageViaWhatsApp(phoneId, replyTo, message);
 }
