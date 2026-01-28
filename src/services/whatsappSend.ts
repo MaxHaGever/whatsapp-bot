@@ -4,7 +4,7 @@ import axios from "axios";
 export async function sendMessageViaWhatsApp ( businessPhoneId: string, to: string, message: string ) {
     
     let token = process.env.WHATSAPP_TEST_NUMBER_TEMPORARY_TOKEN;
-
+    console.log("sending from phone_number_id:", businessPhoneId);
   try {
     await axios.post(`https://graph.facebook.com/v${process.env.GRAPH_VER}/${businessPhoneId}/messages`, {
       messaging_product: "whatsapp",
