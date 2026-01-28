@@ -6,7 +6,7 @@ export async function sendMessageViaWhatsApp ( businessPhoneId: string, to: stri
     let token = process.env.WHATSAPP_TEST_NUMBER_TEMPORARY_TOKEN;
     console.log("sending from phone_number_id:", businessPhoneId);
   try {
-    await axios.post(`https://graph.facebook.com/v${process.env.GRAPH_VER}/${businessPhoneId}/messages`, {
+    await axios.post(`https://graph.facebook.com/v${process.env.GRAPH_VER}/937927959410635/messages`, {
       messaging_product: "whatsapp",
       to,
       type: "text",
