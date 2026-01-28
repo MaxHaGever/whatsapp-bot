@@ -47,6 +47,10 @@ export async function handleWebhookPost(req: Request, res: Response) {
   const message = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body;
   if (!message) return;
 
+  if(process.env.NODE_ENV==="development"){
+    console.log("type=", type, "userId=", userId, "phoneId=", phoneId);
+  }
+
   try {
     await sendMessageViaWhatsApp(phoneId, userId, message);
   } catch (error) {
