@@ -34,26 +34,21 @@ export async function handleWebhookPost(req: Request, res: Response) {
   // acknowledge immediately
   res.sendStatus(200);
 
-  const phoneId = req.body?.entry?.[0]?.changes?.[0]?.value?.metadata?.phone_number_id; 
-  const userId  = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
-  const type    = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.type;
+  const wabaId = req.body?.entry?.[0]?.id;
+  const phoneNumberId = req.body?.entry?.[0]?.changes?.[0]?.value?.metadata?.phone_number_id;
+  const displayPhone = req.body?.entry?.[0]?.changes?.[0]?.value?.metadata?.display_phone_number;
 
+  console.log("WABA:", wabaId);
+  console.log("phone_number_id:", phoneNumberId);
+  console.log("display_phone_number:", displayPhone);
 
-  // ignore non-message events or non-text messages
-  if (!phoneId || !userId || type !== "text") {
-    console.log(`Ignored event. type=${type} userId=${userId} phoneId=${phoneId}`);
-    return;
-  }
+  const phoneId = phoneNumberId;
 
   const message = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body;
   if (!message) return;
 
-  if(process.env.NODE_ENV==="development"){
-    console.log("type=", type, "userId=", userId, "phoneId=", phoneId);
-  }
-
   try {
-    await sendMessageViaWhatsApp(phoneId, userId, message);
+    await sendMessageViaWhatsApp(phoneId, wabaId, message);
   } catch (error) {
     console.error("Error sending WhatsApp message:", error);
   }
