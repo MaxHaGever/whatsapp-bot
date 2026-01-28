@@ -2,15 +2,8 @@ import Business from "../models/Business";
 import axios from "axios";
 
 export async function sendMessageViaWhatsApp ( businessPhoneId: string, to: string, message: string ) {
-     const business = await Business.findOne({ phoneId: businessPhoneId });
-        if (!business) throw new Error("Business not found");
     
-    let token = business.token;
-    if(process.env.NODE_ENV==="development"){
-        token = process.env.WHATSAPP_TEST_NUMBER_TEMPORARY_TOKEN
-    }
-
-    if (!token) throw new Error("WhatsApp token not found");
+    let token = process.env.WHATSAPP_TEST_NUMBER_TEMPORARY_TOKEN;
 
   try {
     await axios.post(`https://graph.facebook.com/v${process.env.GRAPH_VER}/${businessPhoneId}/messages`, {
