@@ -37,9 +37,14 @@ function pickIncomingTextEvent(body: any) {
 }
 
 export function handleWebhookPost(req: Request, res: Response) {
+
   // Acknowledge immediately to stop retries
   res.sendStatus(200);
-
+  console.log("🚨 webhook POST HIT", {
+    path: req.path,
+    contentType: req.headers["content-type"],
+  });
+    console.log("🚨 webhook BODY keys:", Object.keys(req.body ?? {}));
   // Continue processing async without crashing the request lifecycle
   void (async () => {
     const event = pickIncomingTextEvent(req.body);
