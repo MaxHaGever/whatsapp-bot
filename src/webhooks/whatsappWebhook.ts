@@ -40,7 +40,8 @@ export async function handleWebhookPost(req: Request, res: Response) {
 
   console.log("Received WhatsApp message:", { phoneId, replyTo, message });
 
+  const testMessage = `Hello from the webhook ${message}!`;
 
   if (!phoneId || !replyTo || !message) return;
-  sendMessageViaWhatsApp(phoneId, replyTo, message, false);
+  sendMessageViaWhatsApp(phoneId, replyTo, testMessage, false);
 }
