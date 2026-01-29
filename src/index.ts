@@ -4,6 +4,8 @@ import app from "./app";
 
 const PORT = Number(process.env.PORT || 3000);
 
+console.log("BOOT ✅", { env: process.env.NODE_ENV, build: "2026-01-29-1" });
+
 async function main() {
   await connectDb();
   app.listen(PORT, () => {
