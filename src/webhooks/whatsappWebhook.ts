@@ -34,7 +34,7 @@ export async function handleWebhookPost(req: Request, res: Response) {
   res.sendStatus(200);
 
   const body = req.body;
-  const phoneId = body.entry?.[0]?.changes?.[0]?.value?.metadata?.phone_number_id;
+  const phoneId = process.env.WHATSAPP_TEST_PHONE_NUMBER_ID;
   const replyTo = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
   const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body;
 
@@ -43,5 +43,5 @@ export async function handleWebhookPost(req: Request, res: Response) {
   const testMessage = `Hello from the webhook ${message}!`;
 
   if (!phoneId || !replyTo || !message) return;
-  sendMessageViaWhatsApp(phoneId, replyTo, testMessage, false);
+  await sendMessageViaWhatsApp(phoneId, replyTo, testMessage, false);
 }
