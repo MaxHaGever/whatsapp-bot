@@ -1,8 +1,14 @@
 import Business from "../models/Business";
 import axios from "axios";
 
-export async function sendMessageViaWhatsApp ( phoneNumberId: string, to: string, message: string ) {
+export async function sendMessageViaWhatsApp ( phoneNumberId: string, to: string, message: string, dryRun: boolean ) {
     const token = process.env.WHATSAPP_TEST_NUMBER_TEMPORARY_TOKEN;
+
+    if(dryRun === true) {
+        console.log("Dry run - not sending message");
+        console.log({ phoneNumberId, to, message, token });;
+        return;
+    }
     try {
         await axios.post(`https://graph.facebook.com/v${process.env.GRAPH_VER}/${phoneNumberId}/messages`, {
             messaging_product: "whatsapp",

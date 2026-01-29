@@ -42,5 +42,5 @@ export async function handleWebhookPost(req: Request, res: Response) {
 
 
   if (!phoneId || !replyTo || !message) return;
-  sendMessageViaWhatsApp(phoneId, replyTo, message);
+  sendMessageViaWhatsApp(phoneId, replyTo, message, false);
 }
